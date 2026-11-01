@@ -10,8 +10,8 @@ RUN useradd --create-home --uid 10001 app
 WORKDIR /build
 COPY pyproject.toml setup.py README.md LICENSE ./
 COPY src ./src
-RUN pip install ".[composite]" && rm -rf /build
+RUN pip install ".[composite]" && cd / && rm -rf /build
 
 USER app
 WORKDIR /home/app
-CMD ["python", "-c", "from psd_tools.version import __version__; print("psd-tools", __version__)"]
+CMD ["python", "-c", "from psd_tools.version import __version__; print('psd-tools', __version__)"]
