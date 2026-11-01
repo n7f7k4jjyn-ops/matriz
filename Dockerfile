@@ -10,7 +10,12 @@ RUN useradd --create-home --uid 10001 app
 WORKDIR /build
 COPY pyproject.toml setup.py README.md LICENSE ./
 COPY src ./src
-RUN pip install ".[composite]" && cd / && rm -rf /build
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends build-essential libfreetype-dev \
+ && pip install ".[composite]" \
+ && apt-get purge -y --auto-remove build-essential \
+ && rm -rf /var/lib/apt/lists/* /build \
+ && cd /
 
 USER app
 WORKDIR /home/app
